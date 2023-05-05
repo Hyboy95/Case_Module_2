@@ -1,4 +1,4 @@
-import {admin, backMes, keySelect, pressEnterToBack, readlineSync} from "../Main";
+import {admin, backMes, keySelect, pressEnterToBack, readlineSync} from "../../Main";
 import {User} from "../Model/User";
 import {UserFunction} from "../Function/UserFunction";
 import {InputFunction} from "../Function/InputFunction";
@@ -130,7 +130,7 @@ export class MenuOfUser {
             switch (keySelect(walletMenu)) {
                 case 0:
                     console.log(borderWhite);
-                    console.log(`Balance in your wallet is: ${user.getWallet()} VND.`);
+                    console.log(`Balance in your wallet is: ${user.getWallet().toLocaleString()} VND.`);
                     pressEnterToBack();
                     break;
                 case 1:

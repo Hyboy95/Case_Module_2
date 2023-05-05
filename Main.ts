@@ -1,7 +1,7 @@
-import {MainMenu} from "./Menu/MainMenu";
-import {UserManager} from "./Manager/UserManager";
-import {ProductManager} from "./Manager/ProductManager";
-import {borderWhite} from "./ConsoleMessenger/ConsoleMessenger";
+import {MainMenu} from "./src/Menu/MainMenu";
+import {UserManager} from "./src/Manager/UserManager";
+import {ProductManager} from "./src/Manager/ProductManager";
+import {borderWhite} from "./src/ConsoleMessenger/ConsoleMessenger";
 
 export const readlineSync = require('readline-sync');
 const selectMenuMes: string = 'Select Function: ';
@@ -20,7 +20,7 @@ export const backMes: string = 'Confirm Back: ';
 
 export const admin: UserManager = new UserManager('admin', 'admin');
 export const productsList: ProductManager = new ProductManager();
-export const countInputPasswordWrong: number = 5;
+export const maxInputPasswordWrong: number = 5;
 export const minMoneysRecharge: number = 50000;
 
 function init() {

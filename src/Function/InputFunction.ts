@@ -1,4 +1,4 @@
-import {readlineSync} from "../Main";
+import {readlineSync} from "../../Main";
 import {ValidateInputUser} from "../Validate/ValidateInputUser";
 import {ValidateInputProduct} from "../Validate/ValidateInputProduct";
 import {

@@ -1,6 +1,6 @@
 import {Product} from "../Model/Product";
 import {ValidateInputProduct} from "../Validate/ValidateInputProduct";
-import {readlineSync} from "../Main";
+import {readlineSync} from "../../Main";
 import {InputFunction} from "../Function/InputFunction";
 import {
     costNotValidate, describeNotValidate, ipDescribe,

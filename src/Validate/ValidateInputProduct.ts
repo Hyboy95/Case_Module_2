@@ -1,4 +1,4 @@
-import {productsList} from "../Main";
+import {productsList} from "../../Main";
 import {InputRegex} from "../Regex/InputRegex";
 import {
     costNotValidate,

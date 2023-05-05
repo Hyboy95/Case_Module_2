@@ -1,7 +1,7 @@
 import {ValidateInputUser} from "../Validate/ValidateInputUser";
 import {accountStatus, Gender, SecretQuestion, User} from "../Model/User";
 import {MenuOfAdmin} from "./MenuOfAdmin";
-import {admin, countInputPasswordWrong, pressEnterToBack, readlineSync} from "../Main";
+import {admin, maxInputPasswordWrong, pressEnterToBack, readlineSync} from "../../Main";
 import {MenuOfUser} from "./MenuOfUser";
 import {InputFunction} from "../Function/InputFunction";
 import {
@@ -24,27 +24,32 @@ export class MainMenu {
                 return;
             }
             console.log(passwordWrong);
-        } else {
-            const user: User | undefined = admin.findUserByUsername(username);
-            if (!user) {
-                console.log(accIsNotExist);
-            } else if (user.getStatus() === accountStatus.LOCKED) {
-                console.log(hasBeenLockedMes);
-            } else {
-                for (let i = 0; i < countInputPasswordWrong; i++) {
-                    const password = readlineSync.question(ipPassword, {hideEchoBack: true});
-                    if (ValidateInputUser.checkCorrectPassword(username, password)) {
-                        console.log(successLoggedInAsUser);
-                        console.log(borderWhite);
-                        MenuOfUser.userMenu(user);
-                        return;
-                    }
-                    console.log(passwordWrong);
-                }
-                admin.lockedAccountUser(user);
-                console.log(hasBeenLockedMes);
-            }
+            pressEnterToBack();
+            return;
         }
+        const user: User | undefined = admin.findUserByUsername(username);
+        if (!user) {
+            console.log(accIsNotExist);
+            pressEnterToBack();
+            return;
+        }
+        if (user.getStatus() === accountStatus.LOCKED) {
+            console.log(hasBeenLockedMes);
+            pressEnterToBack();
+            return;
+        }
+        for (let i = 0; i < maxInputPasswordWrong; i++) {
+            const password = readlineSync.question(ipPassword, {hideEchoBack: true});
+            if (ValidateInputUser.checkCorrectPassword(username, password)) {
+                console.log(successLoggedInAsUser);
+                console.log(borderWhite);
+                MenuOfUser.userMenu(user);
+                return;
+            }
+            console.log(passwordWrong);
+        }
+        admin.lockedAccountUser(user);
+        console.log(hasBeenLockedMes);
         pressEnterToBack();
     }
 
@@ -54,13 +59,13 @@ export class MainMenu {
         let username: string = InputFunction.inputUsername();
         let password: string = InputFunction.inputPassword();
         let confirmPassword: string;
-        let attemptCount: number = 0;
-        while (attemptCount < countInputPasswordWrong) {
+        let inputCount: number = 0;
+        while (inputCount < maxInputPasswordWrong) {
             confirmPassword = readlineSync.question(retypePassword, {hideEchoBack: true});
             if (confirmPassword === password) break;
-            attemptCount++;
+            inputCount++;
         }
-        if (attemptCount === countInputPasswordWrong) {
+        if (inputCount === maxInputPasswordWrong) {
             console.log(reRegisterMes);
             return;
         }

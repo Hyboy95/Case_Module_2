@@ -61,9 +61,9 @@ export class Bill {
         console.log(`${brightGreen}Client Gender:${resetEffect} ${this.getClientGender()}`);
         console.log(`${brightGreen}Client PhoneNumber:${resetEffect} ${this.getClientPhoneNumber()}`);
         console.log(`${brightGreen}Client Address:${resetEffect} ${this.getClientAddress()}`);
-        console.log(`${brightGreen}Info Products Buy:${resetEffect}`)
+        console.log(`${brightGreen}Info Products Bought:${resetEffect}`)
         console.table(this.getInfoProducts().showCart());
-        console.log(`${brightGreen}Total Value Of Bill:${resetEffect} ${this.getInfoProducts().getTotalCost()} VND`);
+        console.log(`${brightGreen}Total Value Of Bill:${resetEffect} ${this.getInfoProducts().getTotalCost().toLocaleString()} VND.`);
         console.log(borderBLue);
     }
 }

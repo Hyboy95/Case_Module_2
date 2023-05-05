@@ -1,5 +1,5 @@
 import {Product} from "./Product";
-import {productsList} from "../Main";
+import {productsList} from "../../Main";
 import {noProdFound, quantityNotEnough, successAddProd, successDelProd} from "../ConsoleMessenger/ConsoleMessenger";
 
 
@@ -44,35 +44,34 @@ export class Cart {
                     this._totalCost += costMulti;
                     this._listProductSelect.push({id, name, quantity, cost, costMulti});
                     console.log(successAddProd);
-                } else {
-                    console.log(quantityNotEnough);
+                    return;
                 }
-            } else {
-                let prod = this._listProductSelect[indexInCart];
-                if (quantity <= product.getQuantity()) {
-                    prod.quantity += quantity;
-                    prod.costMulti += product.getCost() * quantity;
-                    this._totalCost += product.getCost() * quantity;
-                    console.log(successAddProd);
-                } else {
-                    console.log(quantityNotEnough);
-                }
+                console.log(quantityNotEnough);
+                return;
             }
-        } else {
-            console.log(noProdFound);
+            let prod = this._listProductSelect[indexInCart];
+            if (quantity <= product.getQuantity()) {
+                prod.quantity += quantity;
+                prod.costMulti += product.getCost() * quantity;
+                this._totalCost += product.getCost() * quantity;
+                console.log(successAddProd);
+                return;
+            }
+            console.log(quantityNotEnough);
+            return;
         }
+        console.log(noProdFound);
     }
 
     deleteProdFromCart(id: string) {
         let index: number = this.findIndexInCart(id);
-        if (index !== -1) {
-            let costMulti: number = this._listProductSelect[index].costMulti;
-            this._listProductSelect.splice(index, 1);
-            this._totalCost -= costMulti;
-            console.log(successDelProd);
-        } else {
+        if (index === -1) {
             console.log(noProdFound);
         }
+        let costMulti: number = this._listProductSelect[index].costMulti;
+        this._listProductSelect.splice(index, 1);
+        this._totalCost -= costMulti;
+        console.log(successDelProd);
     }
 
     getTotalCost(): number {

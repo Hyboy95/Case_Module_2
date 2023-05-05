@@ -1,4 +1,4 @@
-import {admin, readlineSync} from "../Main";
+import {admin, readlineSync} from "../../Main";
 import {accountStatus, User} from "../Model/User";
 import {
     accIsNotExist, doesNotNeedUnlock, dataUserDisplay,
@@ -19,13 +19,18 @@ export class AdminWithUserFunction {
     }
 
     static displayCartOfUser() {
+        if (admin.isEmpty()) {
+            console.log(usersListEmpty);
+            return;
+        }
+        console.table(admin.showList(), dataUserDisplay);
         let username: string = readlineSync.question(ipUsername);
         let user: User | undefined = admin.findUserByUsername(username);
         if (!user) {
             console.log(accIsNotExist);
-        } else {
-            UserFunction.showCart(user);
+            return;
         }
+        UserFunction.showCart(user);
     }
 
     static resetPasswordOfUser() {
@@ -39,7 +44,7 @@ export class AdminWithUserFunction {
             console.log(accIsNotExist);
             return;
         }
-        admin.ResetPasswordOfUser(accountUpdate);
+        admin.resetPasswordOfUser(accountUpdate);
     }
 
     static deleteUser() {
@@ -49,54 +54,63 @@ export class AdminWithUserFunction {
         }
         console.table(admin.showList(), dataUserDisplay);
         let accountDelete = readlineSync.question(ipUsername);
-        if (!accountDelete) {
-            console.log(accIsNotExist);
-            return;
-        }
         admin.deleteAccount(accountDelete);
     }
 
     static rechargeForUser() {
+        if (admin.isEmpty()) {
+            console.log(usersListEmpty);
+            return;
+        }
         let username = readlineSync.question(ipUsername);
         let request =
             admin.showRequestsRecharge().find(item => item.username === username);
-        if (request) {
-            admin.rechargeForWalletOfUser(username, request.money);
-            admin.setWallet(admin.getWallet() + request.money);
-        } else {
+        if (!request) {
             console.log(noUsernameFound);
+            return;
         }
+        admin.rechargeForWalletOfUser(username, request.money);
+        admin.setWallet(admin.getWallet() + request.money);
     }
 
     static lockAccountOfUser() {
+        if (admin.isEmpty()) {
+            console.log(usersListEmpty);
+            return;
+        }
+        console.table(admin.showList(), dataUserDisplay);
         let username = readlineSync.question(ipUsername);
         let user: User | undefined = admin.findUserByUsername(username);
         if (!user) {
             console.log(accIsNotExist);
-        } else {
-            if (user.getStatus() === accountStatus.LOCKED) {
-                lockedBeforeMes(username);
-            } else {
-                admin.lockedAccountUser(user);
-                lockedSuccessMes(username);
-            }
+            return;
         }
+        if (user.getStatus() === accountStatus.LOCKED) {
+            lockedBeforeMes(username);
+            return;
+        }
+        admin.lockedAccountUser(user);
+        lockedSuccessMes(username);
     }
 
     static unlockAccountUser() {
+        if (admin.isEmpty()) {
+            console.log(usersListEmpty);
+            return;
+        }
         let username = readlineSync.question(ipUsername);
         let user: User | undefined = admin.findUserByUsername(username);
         if (!user) {
             console.log(accIsNotExist);
-        } else {
-            if (user.getStatus() === accountStatus.UNLOCK) {
-                console.log(doesNotNeedUnlock);
-            } else {
-                admin.unlockAccountUser(user);
-                admin.deleteRequestUnlock(username);
-                unlockedSuccessMes(username);
-            }
+            return;
         }
+        if (user.getStatus() === accountStatus.UNLOCK) {
+            console.log(doesNotNeedUnlock);
+            return;
+        }
+        admin.unlockAccountUser(user);
+        admin.deleteRequestUnlock(username);
+        unlockedSuccessMes(username);
     }
 
     static displayBillsOfUser() {

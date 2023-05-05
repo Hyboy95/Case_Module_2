@@ -1,4 +1,4 @@
-import {admin, backMes, keySelect, pressEnterToBack, productsList, readlineSync} from "../Main";
+import {admin, backMes, keySelect, pressEnterToBack, productsList, readlineSync} from "../../Main";
 import {MainMenu} from "./MainMenu";
 import {AdminWithProductFunction} from "../Function/AdminWithProductFunction";
 import {AdminWithUserFunction} from "../Function/AdminWithUserFunction";
@@ -236,7 +236,7 @@ export class MenuOfAdmin {
             switch (keySelect(ADMINMenu)) {
                 case 0:
                     console.log(borderWhite);
-                    console.log(`Balance in your wallet is: ${admin.getWallet()} VND`);
+                    console.log(`Balance in your wallet is: ${admin.getWallet().toLocaleString()} VND.`);
                     pressEnterToBack();
                     break;
                 case 1:

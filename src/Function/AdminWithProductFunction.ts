@@ -1,4 +1,4 @@
-import {pressEnterToBack, productsList, readlineSync} from "../Main";
+import {pressEnterToBack, productsList, readlineSync} from "../../Main";
 import {MenuOfAdmin} from "../Menu/MenuOfAdmin";
 import {ipProdID, ipProdName, noProdFound, prodsListEmpty} from "../ConsoleMessenger/ConsoleMessenger";
 
@@ -20,9 +20,9 @@ export class AdminWithProductFunction {
         let foundProducts = productsList.findProduct(name);
         if (foundProducts.length !== 0) {
             console.table(foundProducts);
-        } else {
-            console.log(noProdFound);
+            return;
         }
+        console.log(noProdFound);
     }
 
     static updateProductInfo() {
@@ -32,14 +32,13 @@ export class AdminWithProductFunction {
             return;
         }
         console.table(productsList.showList());
-        let index: number;
-        do {
-            let id: string = readlineSync.question(ipProdID);
-            index = productsList.findIndexOfProductByID(id);
-            if (index === -1) {
-                console.log(noProdFound);
-            }
-        } while (index === -1);
+        let id: string = readlineSync.question(ipProdID);
+        let index: number = productsList.findIndexOfProductByID(id);
+        if (index === -1) {
+            console.log(noProdFound);
+            pressEnterToBack();
+            return;
+        }
         MenuOfAdmin.updateProductMenu(index);
     }
 

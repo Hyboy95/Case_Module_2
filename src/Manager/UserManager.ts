@@ -1,6 +1,7 @@
 import {accountStatus, Gender, SecretQuestion, User} from "../Model/User";
 import {ValidateInputUser} from "../Validate/ValidateInputUser";
 import {
+    accIsNotExist,
     hasBeenSentUnlockMes,
     ipNewPassword,
     ipPassword,
@@ -22,7 +23,8 @@ export class UserManager extends User {
     private _requestsUnlock: string[] = [];
 
     constructor(username: string, password: string) {
-        super(username, password, SecretQuestion.YOUR_JOB, '' , '', Gender.MALE, '', '');
+        super(username, password, SecretQuestion.YOUR_JOB,
+            '', '', Gender.MALE, '', '');
     }
 
     addAccount(account: User) {
@@ -60,7 +62,7 @@ export class UserManager extends User {
         }
     }
 
-    ResetPasswordOfUser(username: string) {
+    resetPasswordOfUser(username: string) {
         let index: number = this.findIndexAccount(username);
         if (index !== -1) {
             let flag: boolean = true;
@@ -80,10 +82,12 @@ export class UserManager extends User {
 
     deleteAccount(username: string) {
         let index: number = this.findIndexAccount(username);
-        if (index !== -1) {
-            this.showList().splice(index, 1);
-            successDeleteAccMes(username);
+        if (index === -1) {
+            console.log(accIsNotExist);
+            return;
         }
+        this.showList().splice(index, 1);
+        successDeleteAccMes(username);
     }
 
     showRequestsRecharge() {
@@ -104,13 +108,13 @@ export class UserManager extends User {
 
     rechargeForWalletOfUser(username: string, money: number) {
         let user: User | undefined = this.findUserByUsername(username);
-        if (user) {
-            user.setWallet(user.getWallet() + money);
-            this.deleteRequestRecharge(username);
-            rechargeSuccessMes(username, money);
-        } else {
+        if (!user) {
             console.log(noUsernameFound);
+            return;
         }
+        user.setWallet(user.getWallet() + money);
+        this.deleteRequestRecharge(username);
+        rechargeSuccessMes(username, money);
     }
 
     resetRequestsRecharge() {

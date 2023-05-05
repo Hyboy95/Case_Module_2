@@ -2,7 +2,7 @@ import {AccountRegex} from "../Regex/AccountRegex";
 import {PasswordRegex} from "../Regex/PasswordRegex";
 import {PhoneNumberRegex} from "../Regex/PhoneNumberRegex";
 import {InputRegex} from "../Regex/InputRegex";
-import {admin, minMoneysRecharge} from "../Main";
+import {admin, minMoneysRecharge} from "../../Main";
 import {
     inputNotValidate,
     moneysNotValidate,

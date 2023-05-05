@@ -1,4 +1,4 @@
-import {admin, productsList, readlineSync} from "../Main";
+import {admin, productsList, readlineSync} from "../../Main";
 import {Gender, User} from "../Model/User";
 import {ValidateInputUser} from "../Validate/ValidateInputUser";
 import {InputFunction} from "./InputFunction";
@@ -16,9 +16,9 @@ export class UserFunction {
     static showProductList() {
         if (!productsList.isEmpty()) {
             console.table(productsList.showList());
-        } else {
-            console.log(prodsListEmpty);
+            return;
         }
+        console.log(prodsListEmpty);
     }
 
     static showInfoOfUser(user: User) {
@@ -80,10 +80,8 @@ export class UserFunction {
     static showCart(user: User) {
         if (user.displayCart().length !== 0) {
             console.table(user.displayCart());
-        } else {
-            console.log(cartEmpty);
-        }
-        console.log(`Total amount to pay: ${user.getTotalCost()}`);
+        } else console.log(cartEmpty);
+        console.log(`Total amount to pay: ${user.getTotalCost().toLocaleString()} VND`);
     }
 
     static addProductToCart(user: User) {
@@ -94,13 +92,13 @@ export class UserFunction {
         console.table(productsList.showList());
         let id = readlineSync.question(ipProdID);
         let index: number = productsList.findIndexOfProductByID(id);
-        if (index !== -1) {
-            let quantity: number = InputFunction.inputProductQuantity();
-            user.addProductToCart(id, quantity);
-            productsList.reduceProductQuantity(id, quantity);
-        } else {
+        if (index === -1) {
             console.log(noProdFound);
+            return;
         }
+        let quantity: number = InputFunction.inputProductQuantity();
+        user.addProductToCart(id, quantity);
+        productsList.reduceProductQuantity(id, quantity);
     }
 
 
@@ -112,14 +110,14 @@ export class UserFunction {
         console.table(user.displayCart());
         let id = readlineSync.question(ipProdID);
         let index = user.getCart().findIndexInCart(id);
-        if (index !== -1) {
-            let quantity = user.getQtyOfProdInCart(id);
-            if (quantity) {
-                user.deleteProductFromCart(id);
-                productsList.increaseProductQuantity(id, quantity);
-            }
-        } else {
+        if (index === -1) {
             console.log(noProdFound);
+            return;
+        }
+        let quantity = user.getQtyOfProdInCart(id);
+        if (quantity) {
+            user.deleteProductFromCart(id);
+            productsList.increaseProductQuantity(id, quantity);
         }
     }
 
@@ -127,19 +125,20 @@ export class UserFunction {
         let money: number = user.getTotalCost();
         if (money === 0) {
             console.log(cartEmpty);
-        } else {
-            if (money <= user.getWallet()) {
-                let cartCopy: Cart = user.getCart().clone();
-                let bill: Bill = this.creatBill(user, cartCopy);
-                user.getBillsList().addBill(bill);
-                admin.getBillsList().addBill(bill);
-                user.pay(money);
-                user.resetCart();
-                console.log(successPay);
-            } else {
-                console.log(balanceNotEnough);
-            }
+            return;
         }
+        if (money > user.getWallet()) {
+            console.log(balanceNotEnough);
+            return;
+        }
+        let cartCopy: Cart = user.getCart().clone();
+        let bill: Bill = this.creatBill(user, cartCopy);
+        user.getBillsList().addBill(bill);
+
+        admin.getBillsList().addBill(bill);
+        user.pay(money);
+        user.resetCart();
+        console.log(successPay);
     }
 
     static creatBill(user: User, cart: Cart) {

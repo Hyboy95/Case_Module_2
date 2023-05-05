@@ -13,11 +13,11 @@ export function unlockedSuccessMes(username: string) {
 }
 
 export function rechargeSuccessMes(username: string, money: number) {
-    console.log(`Successfully Recharge Account ${username} With The Amount Of ${money} VND.`);
+    console.log(`Successfully Recharge Account ${username} With The Amount Of ${money.toLocaleString()} VND.`);
 }
 
 export function successDeleteAccMes(username: string) {
-    console.log(`Account ${username} Is Deleted Successfully!`);
+    console.log(`Account ${username} Was Deleted Successfully!`);
 }
 
 
@@ -46,7 +46,7 @@ export const retypePasswordWrong: string = 'Retype Password Does Not Match!';
 export const ipAnswer: string = 'Input Secret Answer: ';
 export const wrongQuestOrAnswer: string = 'Secret Question Or Secret Answer Wrong!';
 export const ipName: string = 'Input Name: ';
-export const ipPhoneNumber: string = 'Input PhoneNumber: ';
+export const ipPhoneNumber: string = 'Input PhoneNumber(10 Digits Starting With 09 Or 08): ';
 export const ipAddress: string = 'Input Address: ';
 export const successUpdateName: string = 'Update Name Success!';
 export const successUpdateGender: string = 'Update Gender Success!';
