@@ -65,44 +65,43 @@ export class ProductManager {
         let costStr: string = readlineSync.question(ipProdCost);
         if (!costStr || isNaN(+costStr) || parseFloat(costStr) <= 0) {
             console.log(costNotValidate);
-        } else {
-            let cost: number = parseFloat(costStr);
-            this._productsList[index].setCost(cost);
-            console.log(successUpdateProduct);
+            return;
         }
+        let cost: number = parseFloat(costStr);
+        this._productsList[index].setCost(cost);
+        console.log(successUpdateProduct);
     }
 
     updateProductQuantity(index: number) {
         let qStr: string = readlineSync.question(ipProdQty);
         if (!qStr || isNaN(+qStr) || parseInt(qStr) < 0) {
             console.log(qtyNotValidate);
-        } else {
-            let quantity: number = parseInt(qStr);
-            this._productsList[index].setQuantity(quantity);
-            console.log(successUpdateProduct);
+            return;
         }
+        let quantity: number = parseInt(qStr);
+        this._productsList[index].setQuantity(quantity);
+        console.log(successUpdateProduct);
     }
 
     updateProductDescribe(index: number) {
         let describe: string = readlineSync.question(ipDescribe);
         if (!describe) {
             console.log(describeNotValidate);
-        } else {
-            this._productsList[index].setDescribe(describe);
-            console.log(successUpdateProduct);
+            return;
         }
+        this._productsList[index].setDescribe(describe);
+        console.log(successUpdateProduct);
     }
 
     deleteProduct() {
         let id: string = readlineSync.question(ipProdID);
         let index: number = this.findIndexOfProductByID(id);
-        if (index !== -1) {
-
-            this._productsList.splice(index, 1);
-            console.log(successDelProd);
-        } else {
+        if (index === -1) {
             console.log(noProdFound);
+            return;
         }
+        this._productsList.splice(index, 1);
+        console.log(successDelProd);
     }
 
     reduceProductQuantity(id: string, quantity: number) {

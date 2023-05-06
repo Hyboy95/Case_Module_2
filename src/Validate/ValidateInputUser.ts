@@ -15,7 +15,7 @@ export class ValidateInputUser {
     static validateUsername(username: string): boolean {
         let check: boolean = true;
         if (!AccountRegex.validate(username) || username === admin.getUsername() ||
-            admin.findIndexAccount(username) !== -1) {
+            admin.findIndexUserByUsername(username) !== -1) {
             console.log(userNameNotValidate);
             check = false;
         }
@@ -51,7 +51,7 @@ export class ValidateInputUser {
     }
 
     static checkCorrectPassword(username: string, password: string): boolean {
-        let index: number = admin.findIndexAccount(username);
+        let index: number = admin.findIndexUserByUsername(username);
         return (index !== -1 && admin.showList()[index].getPassword() === password);
     }
 }

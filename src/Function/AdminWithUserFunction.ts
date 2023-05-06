@@ -54,7 +54,7 @@ export class AdminWithUserFunction {
         }
         console.table(admin.showList(), dataUserDisplay);
         let accountDelete = readlineSync.question(ipUsername);
-        admin.deleteAccount(accountDelete);
+        admin.deleteAccountUser(accountDelete);
     }
 
     static rechargeForUser() {
@@ -70,7 +70,6 @@ export class AdminWithUserFunction {
             return;
         }
         admin.rechargeForWalletOfUser(username, request.money);
-        admin.setWallet(admin.getWallet() + request.money);
     }
 
     static lockAccountOfUser() {

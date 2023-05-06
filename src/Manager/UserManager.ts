@@ -27,8 +27,8 @@ export class UserManager extends User {
             '', '', Gender.MALE, '', '');
     }
 
-    addAccount(account: User) {
-        this._usersList.push(account);
+    addAccountUser(user: User) {
+        this._usersList.push(user);
     }
 
     isEmpty() {
@@ -39,7 +39,7 @@ export class UserManager extends User {
         return this._usersList.sort((a, b) => a.getUsername().localeCompare(b.getUsername()));
     }
 
-    findIndexAccount(username: string): number {
+    findIndexUserByUsername(username: string): number {
         return this.showList().findIndex(item => username === item.getUsername());
     }
 
@@ -63,7 +63,7 @@ export class UserManager extends User {
     }
 
     resetPasswordOfUser(username: string) {
-        let index: number = this.findIndexAccount(username);
+        let index: number = this.findIndexUserByUsername(username);
         if (index !== -1) {
             let flag: boolean = true;
             while (flag) {
@@ -80,8 +80,8 @@ export class UserManager extends User {
         }
     }
 
-    deleteAccount(username: string) {
-        let index: number = this.findIndexAccount(username);
+    deleteAccountUser(username: string) {
+        let index: number = this.findIndexUserByUsername(username);
         if (index === -1) {
             console.log(accIsNotExist);
             return;
@@ -113,6 +113,7 @@ export class UserManager extends User {
             return;
         }
         user.setWallet(user.getWallet() + money);
+        this.setWallet(this.getWallet() + money);
         this.deleteRequestRecharge(username);
         rechargeSuccessMes(username, money);
     }

@@ -134,7 +134,6 @@ export class UserFunction {
         let cartCopy: Cart = user.getCart().clone();
         let bill: Bill = this.creatBill(user, cartCopy);
         user.getBillsList().addBill(bill);
-
         admin.getBillsList().addBill(bill);
         user.pay(money);
         user.resetCart();

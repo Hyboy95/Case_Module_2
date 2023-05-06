@@ -75,7 +75,7 @@ export class MainMenu {
         let gender: Gender = InputFunction.inputGender();
         let phoneNumber: string = InputFunction.inputPhoneNumber();
         let address: string = InputFunction.inputAddress();
-        admin.addAccount(new User(username, password, secretQuestion, secretAnswer, name, gender, phoneNumber, address));
+        admin.addAccountUser(new User(username, password, secretQuestion, secretAnswer, name, gender, phoneNumber, address));
         console.log(successRegister);
     }
 
